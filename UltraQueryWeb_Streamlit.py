@@ -1,12 +1,7 @@
 import streamlit as st
 import pandas as pd
-import requests
 import io
-import json
 from io import BytesIO
-
-# Ganti dengan API key OpenRouter kamu
-OPENROUTER_API_KEY = "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"
 
 # Konfigurasi halaman
 st.set_page_config(
@@ -131,7 +126,7 @@ with st.sidebar:
         """)
 
 # Main content
-tab1, tab2, tab3, tab4 = st.tabs(["📂 Load Data", "🔄 Transform", "🔧 XLOOKUP", "🤖 AI Analysis"])
+tab1, tab2, tab3 = st.tabs(["📂 Load Data", "🔄 Transform", "🔧 XLOOKUP"])
 
 with tab1:
     st.header("Load Files")
@@ -389,63 +384,9 @@ with tab3:
                 except Exception as e:
                     st.error(f"Error: {e}")
 
-with tab4:
-    st.header("🤖 AI Analysis")
-    
-    if st.session_state.df is None:
-        st.warning("⚠️ Silakan load data terlebih dahulu")
-    else:
-        st.write("Tanya AI tentang data Anda menggunakan OpenRouter API")
-        
-        prompt = st.text_area(
-            "Masukkan pertanyaan atau instruksi untuk AI:",
-            height=5,
-            placeholder="Contoh: Berapa total pasien per kategori discharge status?"
-        )
-        
-        if st.button("Send to AI 🚀"):
-            if not prompt.strip():
-                st.warning("Prompt tidak boleh kosong!")
-            else:
-                try:
-                    with st.spinner("Menunggu respons dari AI..."):
-                        sample_data = st.session_state.df.head(10).to_csv(index=False)
-                        full_prompt = (
-                            f"Saya punya data seperti berikut (hanya 10 baris pertama):\n\n{sample_data}\n\n"
-                            f"Tolong bantu dengan instruksi berikut:\n{prompt}\n"
-                        )
-                        
-                        headers = {
-                            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                            "Content-Type": "application/json"
-                        }
-                        
-                        data = {
-                            "model": "openai/gpt-3.5-turbo",
-                            "messages": [{"role": "user", "content": full_prompt}],
-                            "temperature": 0.3
-                        }
-                        
-                        response = requests.post(
-                            "https://openrouter.ai/api/v1/chat/completions",
-                            headers=headers,
-                            json=data,
-                            timeout=60
-                        )
-                        
-                        if response.status_code == 200:
-                            result = response.json()
-                            ai_reply = result["choices"][0]["message"]["content"]
-                            st.success("Respons dari AI:")
-                            st.write(ai_reply)
-                        else:
-                            st.error(f"Error: {response.text}")
-                except Exception as e:
-                    st.error(f"Error: {str(e)}")
-
 # Footer
 st.divider()
 st.markdown("---")
 col1, col2, col3 = st.columns(3)
 with col2:
-    st.write("💡 Dibuat dengan Streamlit | Powered by AI")
+    st.write("💡 Dibuat dengan Streamlit")
