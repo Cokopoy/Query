@@ -1,0 +1,4 @@
+run = "streamlit run UltraQueryWeb_Streamlit.py --server.address 0.0.0.0"
+
+[env]
+PYTHONUNBUFFERED = "1"

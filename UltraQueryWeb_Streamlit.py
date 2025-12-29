@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("📊 Power Query Lite dengan Pivot & AI")
+st.title("Power Query Lite")
 
 # Initialize session state
 if 'df' not in st.session_state:

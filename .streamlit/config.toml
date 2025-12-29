@@ -1,0 +1,14 @@
+[client]
+showErrorDetails = true
+
+[server]
+headless = true
+port = 8501
+enableXsrfProtection = false
+allowRunOnSave = true
+
+[browser]
+gatherUsageStats = false
+
+[logger]
+level = "info"
